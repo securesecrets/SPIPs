@@ -4,7 +4,8 @@ compliant SNIP20s in terms of functionality as they lack the ability to transfer
 
 * [Additions](#Additions)
   * [Balance](#Balance)
-    * 
+    * [SendBalance](#SendBalance)
+    * [ReceiveBalance](#ReceiveBalance)
   * Distributors
     * Messages
       * [AddDistributors](#AddDistributors)

@@ -4,7 +4,56 @@ provide adjustable privacy. This specification's voting interface depends on a S
 implements [SPIP-STKN-0](./SPIP-STKN-0.md). The spec also provides ways to combat lack of participation and 
 more protocol control without risking decentralization.
 
-* links
+* [Introduction](#Introduction)
+* Contract Interface
+  * [Base](#Base)
+    * Messages
+      * [CreateProposal](#CreateProposal)
+      * [Receive](#Receive)
+      * [ReceiveBalance](#ReceiveBalance)
+      * [TriggerProposal](#TriggerProposal)
+    * Queries
+      * [Proposals](#Proposals)
+    * Structures
+      * [Proposal](#Proposal)
+      * [ProposalStatus](#ProposalStatus)
+      * [Permit](#Permit)
+      * [Vote](#Vote)
+  * [Committees](#Gov-Committees)
+    * Messages
+      * [AddCommittee](#AddCommittee)
+      * [UpdateCommittee](#UpdateCommittee)
+      * [RemoveCommittee](#RemoveCommittee)
+      * [ProposeCommitteeMsg](#ProposeCommitteeMsg)
+      * [AddCommitteeMsg](#AddCommitteeMsg)
+      * [UpdateCommitteeMsg](#UpdateCommitteeMsg)
+      * [RemoveCommitteeMsg](#RemoveCommitteeMsg)
+    * Queries
+      * [Committees](#Committees)
+      * [CommitteeMsgs](#CommitteeMsgs)
+    * Structures
+      * [Committee](#Committee)
+      * [CommitteeMsg](#CommitteeMsg)
+  * [Profiles](#Gov-Profiles)
+    * Messages
+      * [AddProfile](#AddProfile)
+      * [UpdateProfile](#UpdateProfile)
+      * [RemoveProfile](#RemoveProfile)
+    * Queries
+      * [Profiles](#Profiles)
+    * Structures
+      * [Profile](#Profile)
+  * [Representatives](#Gov-Representatives)
+    * Messages
+      * [AddRepresentative](#AddRepresentative)
+      * [UpdateRepresentative](#UpdateRepresentative)
+      * [RemoveRepresentative](#RemoveRepresentative)
+      * [VoteAsRepresentative](#VoteAsRepresentative)
+      * [ReceiveBalance](#ReceiveBalance)
+    * Queries
+      * [Representatives](#Representatives)
+    * Structures
+      * [Representative](#Representative)
 
 # Introduction
 ## Scope
@@ -137,7 +186,7 @@ The sum of all votes must be less or equal to 100
 | abstain      | string | Yes
 
 
-## Committees
+## Gov-Committees
 Allows other elected parties to have proposal parameters different from the general user base. These proposals can be
 restricted to a closed set of messages called CommitteeMsg, this prevents specific committees from creating off-topic
 proposals, and limit their overall network power.
@@ -267,7 +316,7 @@ A proposal Msg that is bound by a set amount of variable fields.
 | committees   | string array  | Committees that can use this template | No       |
 | msg_template | base64 string | Message template                      | No       |
 
-## Profiles
+## Gov-Profiles
 Allow better control over the safety and privacy features that proposals will need if 
 [Committees](#Committees) are implemented.
 ### Messages
@@ -362,9 +411,12 @@ The developer implementing this spec should feel free to add/remove settings.
 | failed_deposit_loss           | string | Percentage of deposit to be lost when proposal fails         | Yes
 | veto_deposit_loss             | string | Percentage of deposit to be lost when proposal is vetoed     | Yes
 
-## Representatives
+## Gov-Representatives
 Combat lack of voter participation by allowing them a way to entrust their vote. If a user that has allowed a 
 representative to vote on his behalf votes, then his voting power is discounted from the representative.
+
+This could be achieved by keeping track of power delegated by user and total power to deduct from representative 
+and recalculating each time a delegator votes.
 ### Messages
 #### AddRepresentative
 Creates a representative account
