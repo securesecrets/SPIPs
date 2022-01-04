@@ -23,11 +23,9 @@ more protocol control without risking decentralization.
     * Messages
       * [AddCommittee](#AddCommittee)
       * [UpdateCommittee](#UpdateCommittee)
-      * [RemoveCommittee](#RemoveCommittee)
       * [ProposeCommitteeMsg](#ProposeCommitteeMsg)
       * [AddCommitteeMsg](#AddCommitteeMsg)
       * [UpdateCommitteeMsg](#UpdateCommitteeMsg)
-      * [RemoveCommitteeMsg](#RemoveCommitteeMsg)
     * Queries
       * [Committees](#Committees)
       * [CommitteeMsgs](#CommitteeMsgs)
@@ -38,7 +36,6 @@ more protocol control without risking decentralization.
     * Messages
       * [AddProfile](#AddProfile)
       * [UpdateProfile](#UpdateProfile)
-      * [RemoveProfile](#RemoveProfile)
     * Queries
       * [Profiles](#Profiles)
     * Structures
@@ -47,7 +44,6 @@ more protocol control without risking decentralization.
     * Messages
       * [AddRepresentative](#AddRepresentative)
       * [UpdateRepresentative](#UpdateRepresentative)
-      * [RemoveRepresentative](#RemoveRepresentative)
       * [VoteAsRepresentative](#VoteAsRepresentative)
       * [ReceiveBalance](#ReceiveBalance)
     * Queries
@@ -68,7 +64,8 @@ The base section defines the minimum to define to follow functionality.
 ### Messages
 #### CreateProposal
 Creates a proposal that follows the base profile. If no ```msg``` is set then it can be considered a text only proposal
-for off-chain actions.
+for off-chain actions. NOTE: This should be replaced by [ProposeCommitteeMsg](#ProposeCommitteeMsg) if Committees get 
+fully implemented.
 
 | Name     | Type          | Description                                                           | Optional |
 |----------|---------------|-----------------------------------------------------------------------|----------|
@@ -189,7 +186,8 @@ The sum of all votes must be less or equal to 100
 ## Gov-Committees
 Allows other elected parties to have proposal parameters different from the general user base. These proposals can be
 restricted to a closed set of messages called CommitteeMsg, this prevents specific committees from creating off-topic
-proposals, and limit their overall network power.
+proposals, and limit their overall network power. If committee members is ```None``` then anyone can use it, if the 
+array is empty, then no one can use it.
 
 Default committees to keep in mind are:
 * ```Public``` - This encompasses all stakers
@@ -203,7 +201,7 @@ Creates a new committee
 |-----------|---------------|--------------------------------|----------|-----------|
 | name      | Base64 string | Readable name                  | No       | No
 | metadata  | Base64 string | Description                    | No       | No
-| members   | string array  | Addresses of members involved  | No       | No
+| members   | string array  | Addresses of members involved  | Yes      | No
 | profile   | string        | ID of [Profile](#Profile)      | No       | Yes
 
 #### UpdateCommittee
@@ -214,18 +212,13 @@ Updates an existing committee
 | id        | string        | Committee ID                   | No       | No
 | name      | Base64 string | Readable name                  | Yes      | No
 | metadata  | Base64 string | Description                    | Yes      | No
+| disable   | bool          | Sets members to none           | Yes      | No
 | members   | string array  | Addresses of members involved  | Tes      | No
 | profile   | string        | ID of [Profile](#Profile)      | Yes      | Yes
 
-#### RemoveCommittee
-Removes a committee
-
-| Name      | Type          | Description                    | Optional | Removable |
-|-----------|---------------|--------------------------------|----------|-----------|
-| id        | string        | Committee ID                   | No       | No
-
 #### ProposeCommitteeMsg
-Proposal created by a committee member. The proposal must conform to an existing [CommitteeMsg](#CommitteeMsg).
+Proposal created by a committee member. The proposal must conform to an existing [CommitteeMsg](#CommitteeMsg). If no
+msg_id is given then it will be a text only proposal.
 
 | Name         | Type          | Description                          | Optional |
 |--------------|---------------|--------------------------------------|----------|
@@ -250,13 +243,6 @@ Updates a [CommitteeMsg](#CommitteeMsg)
 |------------|---------------|---------------------------------------|----------|
 | id         | string        | Msg id                                | No |
 | committees | string array  | Committees that can use this template | No       |
-
-#### RemoveCommitteeMsg
-Removes a [CommitteeMsg](#CommitteeMsg)
-
-| Name       | Type          | Description                           | Optional |
-|------------|---------------|---------------------------------------|----------|
-| id         | string        | Msg id                                | No |
 
 ### Queries
 
@@ -318,7 +304,7 @@ A proposal Msg that is bound by a set amount of variable fields.
 
 ## Gov-Profiles
 Allow better control over the safety and privacy features that proposals will need if 
-[Committees](#Committees) are implemented.
+[Committees](#Committees) are implemented. If a profile is disabled then its committee will also be disabled.
 ### Messages
 #### AddProfile
 Creates a new profile
@@ -347,6 +333,7 @@ Updates an existing profile
 | Name                          | Type   | Description                                                  | Optional |
 |-------------------------------|--------|--------------------------------------------------------------|----------|
 | id                            | string | Profile ID                                                   | No
+| disabled                      | bool   | Active status                                                | Yes
 | proposal_privacy              | bool   | Limit if only committee members can view proposal info       | Yes
 | committee_vote_deadline       | u64    | Time limit for committee voting                              | Yes
 | committee_vote_quorum         | string | Required percentage of committee member participation        | Yes
@@ -362,13 +349,6 @@ Updates an existing profile
 | vote_veto_threshold           | string | Required ```NoWithVeto``` votes in proportion to total votes | Yes
 | failed_deposit_loss           | string | Percentage of deposit to be lost when proposal fails         | Yes
 | veto_deposit_loss             | string | Percentage of deposit to be lost when proposal is vetoed     | Yes
-
-#### RemoveProfile
-Removes an existing profile
-
-| Name            | Type              | Description   | Optional |
-|-----------------|-------------------|---------------|----------|
-| id              | string            | Profile ID    | No       
 
 ### Queries
 #### Profiles
@@ -391,10 +371,11 @@ Queries multiple profiles
 
 ### Structures
 #### Profile
-The developer implementing this spec should feel free to add/remove settings.
+The developer implement`ing this spec should feel free to add/remove settings.
 
 | Name                          | Type   | Description                                                  | Optional |
 |-------------------------------|--------|--------------------------------------------------------------|----------|
+| disabled                      | bool   | Active status                                                | No
 | proposal_privacy              | bool   | Limit if only committee members can view proposal info       | No
 | committee_vote_deadline       | u64    | Time limit for committee voting                              | Yes
 | committee_vote_quorum         | string | Required percentage of committee member participation        | Yes
@@ -432,15 +413,9 @@ Updates a representative account
 | Name     | Type          | Description         | Optional |
 |----------|---------------|---------------------|----------|
 | id       | string        | Representative ID   | No
+| disabled | bool          | Change active status| Yes
 | name     | string        | Representative name | Yes
 | metadata | base64 string | description         | Yes
-
-#### RemoveRepresentative
-Removes a representative account
-
-| Name     | Type          | Description         | Optional |
-|----------|---------------|---------------------|----------|
-| id       | string        | Representative ID   | No
 
 #### VoteAsRepresentative
 Lets a representative vote on behalf of entrusted voter
@@ -486,5 +461,6 @@ Queries multiple representatives
 | Name     | Type          | Description         | Optional |
 |----------|---------------|---------------------|----------|
 | name     | string        | Representative name | No
+| disabled | bool          | Active status       | No
 | metadata | base64 string | description         | No
 | address  | string        | address             | No
