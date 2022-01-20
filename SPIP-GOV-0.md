@@ -90,16 +90,16 @@ Must be received from an address that is recognized as the voting token. It's us
 
 | Name    | Type    | Description                     | Optional |
 |---------|---------|---------------------------------|----------|
-| sender  | string  | Voter address                   | No
-| msg     | string  | Base64 message of [Vote](#Vote) | No
-| balance | Uint128 | Voting power                    | No
+| sender  | string  | Voter address                   | No       |
+| msg     | string  | Base64 message of [Vote](#Vote) | No       |
+| balance | Uint128 | Voting power                    | No       |
 
 #### TriggerProposal
 Triggers a proposal when it contains a set ```msg``` and has already passed through all of its phases.
 
-| Name | Type    | Description | Optional |
-|------|---------|-------------|----------|
-| id   | string  | Proposal ID | No
+| Name | Type   | Description | Optional |
+|------|--------|-------------|----------|
+| id   | string | Proposal ID | No       |
 
 ### Queries
 
@@ -107,14 +107,14 @@ Triggers a proposal when it contains a set ```msg``` and has already passed thro
 Queries multiple proposals. Permits can be used to also reveal user vote.
 Depending on privacy settings, proposals could require permits.
 
-| Name            | Type                                      | Description                                  | Optional | Removable |
+| Name            | Type                                       | Description                                 | Optional | Removable |
 |-----------------|--------------------------------------------|---------------------------------------------|----------|-----------|
-| start           | Uint128                                    | Where to start the range, will default to 0 | Yes      | No
-| total           | Uint128                                    | Maximum number to return                    | No       | No
-| status_filters  | Array of [ProposalStatus](#ProposalStatus) | Filters proposals by status                 | Yes      | No
-| representatives | string array                               | Representative votes to show                | Yes      | Yes |
-| show_vote       | bool                                       | show permit signer vote                     | No       | No
-| permit          | [Permit](#Permit)                          | Query permit                                | Yes      | Yes
+| start           | Uint128                                    | Where to start the range, will default to 0 | Yes      | No        |
+| total           | Uint128                                    | Maximum number to return                    | No       | No        |
+| status_filters  | Array of [ProposalStatus](#ProposalStatus) | Filters proposals by status                 | Yes      | No        |
+| representatives | string array                               | Representative votes to show                | Yes      | Yes       |
+| show_vote       | bool                                       | show permit signer vote                     | No       | No        |
+| permit          | [Permit](#Permit)                          | Query permit                                | Yes      | Yes       |
 
 ##### Result
 
@@ -147,10 +147,10 @@ Proposal structure, must be stored with ID as its key. Its privacy features will
 
 | Name      | Type          | Description                    | Optional | Removable |
 |-----------|---------------|--------------------------------|----------|-----------|
-| committee | string        | The committee that proposed it | No       | Yes
-| proposer  | string        | The proposer's address         | No       | No
-| msg       | Base64 string | Message to trigger if approved | Yes      | No
-| metadata  | Base64 string | Proposal description           | No       | No
+| committee | string        | The committee that proposed it | No       | Yes       |
+| proposer  | string        | The proposer's address         | No       | No        |
+| msg       | Base64 string | Message to trigger if approved | Yes      | No        |
+| metadata  | Base64 string | Proposal description           | No       | No        |
 
 #### ProposalStatus
 Shows the proposal's current phase
@@ -164,23 +164,22 @@ Shows the proposal's current phase
 
 #### Permit
 Permits follow Shade Protocol's permit structures
-TODO: add info regarding allowed committee queries and other settings
 
-| Name               | Type          | Description                                | Optional | Removable |
-|--------------------|---------------|--------------------------------------------|----------|-----------|
-| committees         | string array  | Limits which committee information to view | Yes      | Yes
-| view_proposal_data | bool          | Allows to view proposal interactions       | Yes      | No
-| proposals          | string array  | Limits which proposals can be viewed       | Yes      | No
+| Name               | Type         | Description                                | Optional | Removable |
+|--------------------|--------------|--------------------------------------------|----------|-----------|
+| committees         | string array | Limits which committee information to view | Yes      | Yes       |
+| view_proposal_data | bool         | Allows to view proposal interactions       | Yes      | No        |
+| proposals          | string array | Limits which proposals can be viewed       | Yes      | No        |
 
 #### Vote
 The sum of all votes must be less or equal to 100
 
-| Name         | Type   | Optional 
-|--------------|--------|----------
-| yes          | string | Yes
-| no           | string | Yes
-| no_with_veto | string | Yes
-| abstain      | string | Yes
+| Name         | Type   | Optional |
+|--------------|--------|----------|
+| yes          | string | Yes      |
+| no           | string | Yes      |
+| no_with_veto | string | Yes      |
+| abstain      | string | Yes      |
 
 
 ## Gov-Committees
@@ -197,24 +196,24 @@ Default committees to keep in mind are:
 #### AddCommittee
 Creates a new committee
 
-| Name      | Type          | Description                    | Optional | Removable |
-|-----------|---------------|--------------------------------|----------|-----------|
-| name      | Base64 string | Readable name                  | No       | No
-| metadata  | Base64 string | Description                    | No       | No
-| members   | string array  | Addresses of members involved  | Yes      | No
-| profile   | string        | ID of [Profile](#Profile)      | No       | Yes
+| Name     | Type          | Description                   | Optional | Removable |
+|----------|---------------|-------------------------------|----------|-----------|
+| name     | Base64 string | Readable name                 | No       | No        |
+| metadata | Base64 string | Description                   | No       | No        |
+| members  | string array  | Addresses of members involved | Yes      | No        |
+| profile  | string        | ID of [Profile](#Profile)     | No       | Yes       |
 
 #### UpdateCommittee
 Updates an existing committee
 
-| Name      | Type          | Description                    | Optional | Removable |
-|-----------|---------------|--------------------------------|----------|-----------|
-| id        | string        | Committee ID                   | No       | No
-| name      | Base64 string | Readable name                  | Yes      | No
-| metadata  | Base64 string | Description                    | Yes      | No
-| disable   | bool          | Sets members to none           | Yes      | No
-| members   | string array  | Addresses of members involved  | Tes      | No
-| profile   | string        | ID of [Profile](#Profile)      | Yes      | Yes
+| Name     | Type          | Description                   | Optional | Removable |
+|----------|---------------|-------------------------------|----------|-----------|
+| id       | string        | Committee ID                  | No       | No        |
+| name     | Base64 string | Readable name                 | Yes      | No        |
+| metadata | Base64 string | Description                   | Yes      | No        |
+| disable  | bool          | Sets members to none          | Yes      | No        |
+| members  | string array  | Addresses of members involved | Tes      | No        |
+| profile  | string        | ID of [Profile](#Profile)     | Yes      | Yes       |
 
 #### ProposeCommitteeMsg
 Proposal created by a committee member. The proposal must conform to an existing [CommitteeMsg](#CommitteeMsg). If no
@@ -239,21 +238,21 @@ in Shade Protocol, that standard is "{}"
 #### UpdateCommitteeMsg
 Updates a [CommitteeMsg](#CommitteeMsg)
 
-| Name       | Type          | Description                           | Optional |
-|------------|---------------|---------------------------------------|----------|
-| id         | string        | Msg id                                | No |
-| committees | string array  | Committees that can use this template | No       |
+| Name       | Type         | Description                           | Optional |
+|------------|--------------|---------------------------------------|----------|
+| id         | string       | Msg id                                | No       |
+| committees | string array | Committees that can use this template | No       |
 
 ### Queries
 
 #### Committees
 Queries multiple committee information, information is bound by their privacy profile.
 
-| Name            | Type              | Description   | Optional | Removable |
-|-----------------|-------------------|---------------|----------|-----------|
-| start           | string            | ID start      | Yes      | No |
-| total           | string            | Total results | Yes      | No |
-| permit          | [Permit](#Permit) | Query permit  | Yes      | Yes |
+| Name   | Type              | Description   | Optional | Removable |
+|--------|-------------------|---------------|----------|-----------|
+| start  | string            | ID start      | Yes      | No        |
+| total  | string            | Total results | Yes      | No        |
+| permit | [Permit](#Permit) | Query permit  | Yes      | Yes       |
 
 ```json
 [
@@ -267,11 +266,11 @@ Queries multiple committee information, information is bound by their privacy pr
 #### CommitteeMsgs
 Queries multiple CommitteeMsg
 
-| Name            | Type              | Description     | Optional |
-|-----------------|-------------------|-----------------|----------|
-| id              | string            | CommitteeMsg ID | No       |
-| start           | string            | ID start      | Yes      | No |
-| total           | string            | Total results | Yes      | No |
+| Name  | Type   | Description     | Optional |
+|-------|--------|-----------------|----------|
+| id    | string | CommitteeMsg ID | No       |
+| start | string | ID start        | Yes      | No |
+| total | string | Total results   | Yes      | No |
 
 ##### Result
 
@@ -287,18 +286,18 @@ Queries multiple CommitteeMsg
 ### Structures
 #### Committee
 
-| Name            | Type              | Description   | Optional | Removable |
-|-----------------|-------------------|---------------|----------|-----------|
-| name      | Base64 string | Readable name                  | No       | No
-| metadata  | Base64 string | Description                    | No       | No
-| members   | string array  | Addresses of members involved  | No       | No
-| profile   | string        | ID of [Profile](#Profile)      | No       | Yes
+| Name     | Type          | Description                   | Optional | Removable |
+|----------|---------------|-------------------------------|----------|-----------|
+| name     | Base64 string | Readable name                 | No       | No        |
+| metadata | Base64 string | Description                   | No       | No        |
+| members  | string array  | Addresses of members involved | No       | No        |
+| profile  | string        | ID of [Profile](#Profile)     | No       | Yes       |
 
 #### CommitteeMsg
 A proposal Msg that is bound by a set amount of variable fields.
 
-| Name            | Type              | Description   | Optional |
-|-----------------|-------------------|---------------|----------|
+| Name         | Type          | Description                           | Optional |
+|--------------|---------------|---------------------------------------|----------|
 | committees   | string array  | Committees that can use this template | No       |
 | msg_template | base64 string | Message template                      | No       |
 
@@ -311,54 +310,54 @@ Creates a new profile
 
 | Name                          | Type   | Description                                                  | Optional |
 |-------------------------------|--------|--------------------------------------------------------------|----------|
-| proposal_privacy              | bool   | Limit if only committee members can view proposal info       | No
-| committee_vote_deadline       | u64    | Time limit for committee voting                              | Yes
-| committee_vote_quorum         | string | Required percentage of committee member participation        | Yes
-| committee_vote_threshold      | string | Required committee proportion of ```Yes``` votes             | Yes
-| committee_vote_veto_threshold | string | Required ```NoWithVeto``` votes in proportion to total votes | Yes
-| committee_member_privacy      | bool   | Privacy of committee members                                 | Yes
-| funding_deadline              | u64    | Time limit for funding                                       | Yes
-| funding_required              | string | Funding amount required                                      | Yes
-| funder_privacy                | bool   | Do not reveal funder addresses                               | Yes
-| vote_deadline                 | u64    | Time limit for voting                                        | Yes
-| vote_quorum                   | string | Required percentage of staker participation                  | Yes
-| vote_threshold                | string | Required proportion of ```Yes``` votes                       | Yes
-| vote_veto_threshold           | string | Required ```NoWithVeto``` votes in proportion to total votes | Yes
-| failed_deposit_loss           | string | Percentage of deposit to be lost when proposal fails         | Yes
-| veto_deposit_loss             | string | Percentage of deposit to be lost when proposal is vetoed     | Yes
+| proposal_privacy              | bool   | Limit if only committee members can view proposal info       | No       |
+| committee_vote_deadline       | u64    | Time limit for committee voting                              | Yes      |
+| committee_vote_quorum         | string | Required percentage of committee member participation        | Yes      |
+| committee_vote_threshold      | string | Required committee proportion of ```Yes``` votes             | Yes      |
+| committee_vote_veto_threshold | string | Required ```NoWithVeto``` votes in proportion to total votes | Yes      |
+| committee_member_privacy      | bool   | Privacy of committee members                                 | Yes      |
+| funding_deadline              | u64    | Time limit for funding                                       | Yes      |
+| funding_required              | string | Funding amount required                                      | Yes      |
+| funder_privacy                | bool   | Do not reveal funder addresses                               | Yes      |
+| vote_deadline                 | u64    | Time limit for voting                                        | Yes      |
+| vote_quorum                   | string | Required percentage of staker participation                  | Yes      |
+| vote_threshold                | string | Required proportion of ```Yes``` votes                       | Yes      |
+| vote_veto_threshold           | string | Required ```NoWithVeto``` votes in proportion to total votes | Yes      |
+| failed_deposit_loss           | string | Percentage of deposit to be lost when proposal fails         | Yes      |
+| veto_deposit_loss             | string | Percentage of deposit to be lost when proposal is vetoed     | Yes      |
 
 #### UpdateProfile
 Updates an existing profile
 
 | Name                          | Type   | Description                                                  | Optional |
 |-------------------------------|--------|--------------------------------------------------------------|----------|
-| id                            | string | Profile ID                                                   | No
-| disabled                      | bool   | Active status                                                | Yes
-| proposal_privacy              | bool   | Limit if only committee members can view proposal info       | Yes
-| committee_vote_deadline       | u64    | Time limit for committee voting                              | Yes
-| committee_vote_quorum         | string | Required percentage of committee member participation        | Yes
-| committee_vote_threshold      | string | Required committee proportion of ```Yes``` votes             | Yes
-| committee_vote_veto_threshold | string | Required ```NoWithVeto``` votes in proportion to total votes | Yes
-| committee_member_privacy      | bool   | Privacy of committee members                                 | Yes
-| funding_deadline              | u64    | Time limit for funding                                       | Yes
-| funding_required              | string | Funding amount required                                      | Yes
-| funder_privacy                | bool   | Do not reveal funder addresses                               | Yes
-| vote_deadline                 | u64    | Time limit for voting                                        | Yes
-| vote_quorum                   | string | Required percentage of staker participation                  | Yes
-| vote_threshold                | string | Required proportion of ```Yes``` votes                       | Yes
-| vote_veto_threshold           | string | Required ```NoWithVeto``` votes in proportion to total votes | Yes
-| failed_deposit_loss           | string | Percentage of deposit to be lost when proposal fails         | Yes
-| veto_deposit_loss             | string | Percentage of deposit to be lost when proposal is vetoed     | Yes
+| id                            | string | Profile ID                                                   | No       |
+| disabled                      | bool   | Active status                                                | Yes      |
+| proposal_privacy              | bool   | Limit if only committee members can view proposal info       | Yes      |
+| committee_vote_deadline       | u64    | Time limit for committee voting                              | Yes      |
+| committee_vote_quorum         | string | Required percentage of committee member participation        | Yes      |
+| committee_vote_threshold      | string | Required committee proportion of ```Yes``` votes             | Yes      |
+| committee_vote_veto_threshold | string | Required ```NoWithVeto``` votes in proportion to total votes | Yes      |
+| committee_member_privacy      | bool   | Privacy of committee members                                 | Yes      |
+| funding_deadline              | u64    | Time limit for funding                                       | Yes      |
+| funding_required              | string | Funding amount required                                      | Yes      |
+| funder_privacy                | bool   | Do not reveal funder addresses                               | Yes      |
+| vote_deadline                 | u64    | Time limit for voting                                        | Yes      |
+| vote_quorum                   | string | Required percentage of staker participation                  | Yes      |
+| vote_threshold                | string | Required proportion of ```Yes``` votes                       | Yes      |
+| vote_veto_threshold           | string | Required ```NoWithVeto``` votes in proportion to total votes | Yes      |
+| failed_deposit_loss           | string | Percentage of deposit to be lost when proposal fails         | Yes      |
+| veto_deposit_loss             | string | Percentage of deposit to be lost when proposal is vetoed     | Yes      |
 
 ### Queries
 #### Profiles
 Queries multiple profiles
 
-| Name            | Type              | Description     | Optional |
-|-----------------|-------------------|-----------------|----------|
-| id              | string            | Profile ID | No       |
-| start           | string            | ID start      | Yes      | No |
-| total           | string            | Total results | Yes      | No 
+| Name  | Type   | Description   | Optional |
+|-------|--------|---------------|----------|
+| id    | string | Profile ID    | No       |
+| start | string | ID start      | Yes      | No |
+| total | string | Total results | Yes      | No 
 
 ```json
 [
@@ -375,22 +374,22 @@ The developer implement`ing this spec should feel free to add/remove settings.
 
 | Name                          | Type   | Description                                                  | Optional |
 |-------------------------------|--------|--------------------------------------------------------------|----------|
-| disabled                      | bool   | Active status                                                | No
-| proposal_privacy              | bool   | Limit if only committee members can view proposal info       | No
-| committee_vote_deadline       | u64    | Time limit for committee voting                              | Yes
-| committee_vote_quorum         | string | Required percentage of committee member participation        | Yes
-| committee_vote_threshold      | string | Required committee proportion of ```Yes``` votes             | Yes
-| committee_vote_veto_threshold | string | Required ```NoWithVeto``` votes in proportion to total votes | Yes
-| committee_member_privacy      | bool   | Privacy of committee members                                 | Yes
-| funding_deadline              | u64    | Time limit for funding                                       | Yes
-| funding_required              | string | Funding amount required                                      | Yes
-| funder_privacy                | bool   | Do not reveal funder addresses                               | Yes
-| vote_deadline                 | u64    | Time limit for voting                                        | Yes
-| vote_quorum                   | string | Required percentage of staker participation                  | Yes
-| vote_threshold                | string | Required proportion of ```Yes``` votes                       | Yes
-| vote_veto_threshold           | string | Required ```NoWithVeto``` votes in proportion to total votes | Yes
-| failed_deposit_loss           | string | Percentage of deposit to be lost when proposal fails         | Yes
-| veto_deposit_loss             | string | Percentage of deposit to be lost when proposal is vetoed     | Yes
+| disabled                      | bool   | Active status                                                | No       |
+| proposal_privacy              | bool   | Limit if only committee members can view proposal info       | No       |
+| committee_vote_deadline       | u64    | Time limit for committee voting                              | Yes      |
+| committee_vote_quorum         | string | Required percentage of committee member participation        | Yes      |
+| committee_vote_threshold      | string | Required committee proportion of ```Yes``` votes             | Yes      |
+| committee_vote_veto_threshold | string | Required ```NoWithVeto``` votes in proportion to total votes | Yes      |
+| committee_member_privacy      | bool   | Privacy of committee members                                 | Yes      |
+| funding_deadline              | u64    | Time limit for funding                                       | Yes      |
+| funding_required              | string | Funding amount required                                      | Yes      |
+| funder_privacy                | bool   | Do not reveal funder addresses                               | Yes      |
+| vote_deadline                 | u64    | Time limit for voting                                        | Yes      |
+| vote_quorum                   | string | Required percentage of staker participation                  | Yes      |
+| vote_threshold                | string | Required proportion of ```Yes``` votes                       | Yes      |
+| vote_veto_threshold           | string | Required ```NoWithVeto``` votes in proportion to total votes | Yes      |
+| failed_deposit_loss           | string | Percentage of deposit to be lost when proposal fails         | Yes      |
+| veto_deposit_loss             | string | Percentage of deposit to be lost when proposal is vetoed     | Yes      |
 
 ## Gov-Representatives
 Combat lack of voter participation by allowing them a way to entrust their vote. If a user that has allowed a 
@@ -404,47 +403,47 @@ Creates a representative account
 
 | Name     | Type          | Description         | Optional |
 |----------|---------------|---------------------|----------|
-| name     | string        | Representative name | No
-| metadata | base64 string | description         | No
+| name     | string        | Representative name | No       |
+| metadata | base64 string | description         | No       |
 
 #### UpdateRepresentative
 Updates a representative account
 
-| Name     | Type          | Description         | Optional |
-|----------|---------------|---------------------|----------|
-| id       | string        | Representative ID   | No
-| disabled | bool          | Change active status| Yes
-| name     | string        | Representative name | Yes
-| metadata | base64 string | description         | Yes
+| Name     | Type          | Description          | Optional |
+|----------|---------------|----------------------|----------|
+| id       | string        | Representative ID    | No       |
+| disabled | bool          | Change active status | Yes      |
+| name     | string        | Representative name  | Yes      |
+| metadata | base64 string | description          | Yes      |
 
 #### VoteAsRepresentative
 Lets a representative vote on behalf of entrusted voter
 
-| Name               | Type         | Description         | Optional |
+| Name              | Type          | Description         | Optional |
 |-------------------|---------------|---------------------|----------|
-| representative_id | string        | Representative ID   | No
-| proposal_id       | string        | Proposal ID         | No 
-| vote              | [Vote](#Vote) | Representative name | No
+| representative_id | string        | Representative ID   | No       |
+| proposal_id       | string        | Proposal ID         | No       |
+| vote              | [Vote](#Vote) | Representative name | No       |
 
 #### ReceiveBalance
 Entrusts voting power on one representative, representative vote can be overridden if entrusted voter votes.
 Must be received from an address that is recognized as the voting token.
 
-| Name    | Type    | Description                     | Optional |
-|---------|---------|---------------------------------|----------|
-| sender  | string  | Voter address                   | No
-| msg     | string  | Representative ID               | No
-| balance | Uint128 | Voting power                    | No
+| Name    | Type    | Description       | Optional |
+|---------|---------|-------------------|----------|
+| sender  | string  | Voter address     | No       |
+| msg     | string  | Representative ID | No       |
+| balance | Uint128 | Voting power      | No       |
 
 ### Queries
 #### Representatives
 Queries multiple representatives
 
-| Name            | Type              | Description     | Optional |
-|-----------------|-------------------|-----------------|----------|
-| id              | string            | Representative ID | No       |
-| start           | string            | ID start      | Yes      | No |
-| total           | string            | Total results | Yes      | No 
+| Name  | Type   | Description       | Optional |
+|-------|--------|-------------------|----------|
+| id    | string | Representative ID | No       |
+| start | string | ID start          | Yes      | No |
+| total | string | Total results     | Yes      | No 
 
 ```json
 [
@@ -460,7 +459,7 @@ Queries multiple representatives
 
 | Name     | Type          | Description         | Optional |
 |----------|---------------|---------------------|----------|
-| name     | string        | Representative name | No
-| disabled | bool          | Active status       | No
-| metadata | base64 string | description         | No
-| address  | string        | address             | No
+| name     | string        | Representative name | No       |
+| disabled | bool          | Active status       | No       |
+| metadata | base64 string | description         | No       |
+| address  | string        | address             | No       |
